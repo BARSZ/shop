@@ -1,5 +1,7 @@
 package com.company;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +44,22 @@ public class Shop {
     }
     public List<Worker> GetWorkers(){
         return this.workers;
+    }
+
+    public Double CalculateProductPrice(Product product){
+        double result;
+        double initialPrice = product.GetPrice();
+        long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(), product.GetProductExpirationDate());
+        if(product.GetProductCategory() == Category.FOOD){
+            result = initialPrice + (initialPrice * this.foodSurplus / 100);
+        } else if(product.GetProductCategory() == Category.NONFOOD){
+            result = initialPrice + (initialPrice * this.nonFoodSurplus / 100);
+        } else {
+            result = 0;
+        }
+        if(daysBetween <= this.remainingDaysForDiscount){
+            result += result * this.percentDiscount / 100;
+        }
+        return result;
     }
 }

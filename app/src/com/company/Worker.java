@@ -1,19 +1,11 @@
 package com.company;
 
-public class Worker {
-    private static int count = 0;
+public class Worker extends Base {
 
-    private int id;
-    private String name;
-    private double salary;
-
-    public Worker(String name, double salary) {
-        this.id = ++count;
-        this.name = name;
-        this.salary = salary;
+    public Worker(int id, String name, double salary) {
+        super(id, name, salary);
     }
-    public String toString(){
-        System.out.println();
-        return "ID: " + this.id + "\nName: " + this.name + "\nSalary: " + this.salary;
+    @Override public String toString(){
+        return ("ID: " + this.GetId() + "\nName: " + this.GetName() + "\nSalary: " + this.GetPrice() + " leva");
     }
 }

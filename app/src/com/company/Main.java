@@ -9,22 +9,23 @@ import java.util.Objects;
 
 public class Main {
     private static int productId = 1;
+    private static int workerId = 1;
     public static void main(String[] args) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         List<Shop> shops = new ArrayList<Shop>();
 
         Shop metro = new Shop("Metro", 10, 15, 3, 10);
-        Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, LocalDate.now());
-        Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, LocalDate.now());
-        Worker pesho = new Worker("Pesho", 700);
+        Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-09-30");
+        Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30");
+        Worker pesho = new Worker(workerId++,"Pesho", 700);
         metro.AddProduct(sapun);
         metro.AddProduct(shampoo);
         metro.AddWorker(pesho);
 
         Shop fantastiko = new Shop("Fantastiko", 12, 16, 4, 10);
-        Product olio = new Product(productId++,"Olio", 12, Category.FOOD, LocalDate.now());
-        Product magdanoz = new Product(productId++,"Magdanoz", 1, Category.FOOD, LocalDate.now());
-        Worker vivaldi = new Worker("Vivaldi", 720);
+        Product olio = new Product(productId++,"Olio", 12, Category.FOOD, "2022-09-30");
+        Product magdanoz = new Product(productId++,"Magdanoz", 1, Category.FOOD, "2022-09-30");
+        Worker vivaldi = new Worker(workerId++,"Vivaldi", 720);
         fantastiko.AddProduct(olio);
         fantastiko.AddProduct(magdanoz);
         fantastiko.AddWorker(vivaldi);
@@ -42,6 +43,7 @@ public class Main {
             System.out.println("Press 5 To See All Shops");
             System.out.println("Press 6 To See All Products For A Shop");
             System.out.println("Press 7 To See All Workers For A Shop");
+            System.out.println("Press 8 To Calculate Price for Product In Shop");
             command = Integer.parseInt(reader.readLine());
 
             //ADD SHOP
@@ -52,12 +54,12 @@ public class Main {
             } else if (command == 2) {
                 PrintShops(shops);
                 System.out.println();
-                System.out.println("Enter Shop Name: ");
+                System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
 
-                System.out.println("Chosen shop is:");
+                System.out.println("Chosen shop is");
                 System.out.println();
                 System.out.println(chosenShop.toString());
                 Product product = EnterProduct();
@@ -73,11 +75,11 @@ public class Main {
             } else if (command == 3) {
                 PrintShops(shops);
                 System.out.println();
-                System.out.println("Enter Shop Name: ");
+                System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
-                System.out.println("Chosen shop is:");
+                System.out.println("Chosen shop is");
                 System.out.println();
                 System.out.println(chosenShop.toString());
 
@@ -98,7 +100,7 @@ public class Main {
             }else if (command == 6){
                 PrintShops(shops);
                 System.out.println();
-                System.out.println("Enter Shop Name: ");
+                System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
@@ -106,11 +108,25 @@ public class Main {
             }else if(command == 7){
                 PrintShops(shops);
                 System.out.println();
-                System.out.println("Enter Shop Name: ");
+                System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
                 PrintWorkers(chosenShop);
+            }else if(command == 8){
+                PrintShops(shops);
+                System.out.println();
+                System.out.println("Enter Shop Name: ");
+
+                //CHOOSE SHOP
+                Shop chosenShop = ChooseShop(shops);
+                PrintProducts(chosenShop);
+                Product chosenProduct = ChooseProduct(chosenShop);
+                System.out.println("Chosen Product is:");
+                System.out.println();
+                System.out.println(chosenProduct.toString());
+                System.out.println("Final Product Price: " + chosenShop.CalculateProductPrice(chosenProduct));
+                System.out.println("Expiration Date: " + chosenProduct.GetProductExpirationDate());
             }else {
                 System.out.println("Try Again");
             }
@@ -140,22 +156,21 @@ public class Main {
     public static Shop EnterShop() throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println();
-        System.out.println("Add new Shop:");
+        System.out.println("Add new Shop");
 
-        System.out.println("Enter Name For Shop");
+        System.out.print("Enter Name For Shop: ");
         String name = reader.readLine();
 
-        System.out.println("Enter Food Surplus For Shop:");
+        System.out.print("Enter Food Surplus For Shop: ");
         double foodSurplus = Double.parseDouble(reader.readLine());
 
-        System.out.println("Enter NonFood Surplus For Shop:");
+        System.out.print("Enter NonFood Surplus For Shop: ");
         double nonfoodSurplus = Double.parseDouble(reader.readLine());
 
-        System.out.println("Enter Days Until Discount For Products in Shop:");
+        System.out.print("Enter Days Until Discount For Products in Shop: ");
         int remainingDaysForDiscount = Integer.parseInt(reader.readLine());
 
-        System.out.println("Enter Percent Discount For Products in Shop:");
+        System.out.print("Enter Percent Discount For Products in Shop: ");
         double percentDiscount = Double.parseDouble(reader.readLine());
 
         Shop shop = new Shop(name, foodSurplus, nonfoodSurplus, remainingDaysForDiscount, percentDiscount);
@@ -166,12 +181,12 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println();
-        System.out.println("Add Product To Shop:");
+        System.out.println("Add Product To Shop");
 
-        System.out.println("Enter Name For Product");
+        System.out.print("Enter Name For Product: ");
         String name = reader.readLine();
 
-        System.out.println("Enter Price For Product:");
+        System.out.print("Enter Price For Product: ");
         double price = Double.parseDouble(reader.readLine());
 
         System.out.println("Enter Category For Product: food/nonfood");
@@ -182,10 +197,10 @@ public class Main {
         }else{
             category1 = Category.NONFOOD;
         }
+        System.out.println("Please Enter Date in Format: yyyy-mm-dd");
+        String date = reader.readLine();
 
-        LocalDate date = LocalDate.now();
-
-        Product product = new Product(productId++,name, price, category1, date);
+        Product product = new Product(productId++, name, price, category1, date);
         return product;
     }
     public static Worker EnterWorker() throws IOException{
@@ -200,7 +215,7 @@ public class Main {
         System.out.println("Enter Salary For Worker:");
         double salary = Double.parseDouble(reader.readLine());
 
-        Worker worker = new Worker(name, salary);
+        Worker worker = new Worker(workerId++, name, salary);
 
         return worker;
     }
@@ -216,6 +231,20 @@ public class Main {
             }
         }
         return chosenShop;
+    }
+    public static Product ChooseProduct(Shop shop)throws IOException{
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Enter Product Name:");
+        String name = reader.readLine();
+        Product product = new Product();
+        for (int i = 0; i < shop.GetProducts().size(); i++) {
+            if(Objects.equals(shop.GetProducts().get(i).GetName(), name)){
+                product = shop.GetProducts().get(i);
+                break;
+            }
+        }
+        return product;
     }
 }
 
