@@ -9,7 +9,7 @@ public class Shop {
     private List<Product> products;
     private List<Worker> workers;
     private List<CashRegister> cashRegisters;
-    
+
 
     private String name;
     private double foodSurplus;

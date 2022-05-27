@@ -61,7 +61,7 @@ public class Main {
 
         while(Objects.equals(commandAgain, "y")) {
             System.out.println("Press 1 To Add Shop");
-            System.out.println("Press 2 To Add Products To Shop");
+            System.out.println("Press 2 To Add Products  To Shop");
             System.out.println("Press 3 To Add Workers To Shop");
             System.out.println("Press 4 To Sell Products");
             System.out.println("Press 5 To See All Shops");
