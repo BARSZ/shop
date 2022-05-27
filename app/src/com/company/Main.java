@@ -14,21 +14,45 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         List<Shop> shops = new ArrayList<Shop>();
 
+        //region Add Metro Shop
         Shop metro = new Shop("Metro", 10, 15, 3, 10);
+
         Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-09-30");
         Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30");
+
         Worker pesho = new Worker(workerId++,"Pesho", 700);
+        Worker gregorii = new Worker(workerId++,"Gregorii", 960);
+
+        CashRegister cashRegisterM = new CashRegister("A", pesho);
+        CashRegister cashRegisterM1 = new CashRegister("B", gregorii);
+
         metro.AddProduct(sapun);
         metro.AddProduct(shampoo);
         metro.AddWorker(pesho);
+        metro.AddWorker(gregorii);
+        metro.AddCashRegister(cashRegisterM);
+        metro.AddCashRegister(cashRegisterM1);
+        //endregion
 
+        //region Add Fantastiko Shop
         Shop fantastiko = new Shop("Fantastiko", 12, 16, 4, 10);
+
         Product olio = new Product(productId++,"Olio", 12, Category.FOOD, "2022-09-30");
         Product magdanoz = new Product(productId++,"Magdanoz", 1, Category.FOOD, "2022-09-30");
-        Worker vivaldi = new Worker(workerId++,"Vivaldi", 720);
+
+        Worker vivaldi = new Worker(workerId++,"Vivaldi", 730);
+        Worker frodo = new Worker(workerId++,"Frodo", 570);
+
+        CashRegister cashRegisterF = new CashRegister("A", vivaldi);
+        CashRegister cashRegisterF1 = new CashRegister("B", frodo);
+
         fantastiko.AddProduct(olio);
         fantastiko.AddProduct(magdanoz);
         fantastiko.AddWorker(vivaldi);
+        fantastiko.AddWorker(frodo);
+        fantastiko.AddCashRegister(cashRegisterF);
+        fantastiko.AddCashRegister(cashRegisterF1);
+        //endregion
 
         shops.add(metro);
         shops.add(fantastiko);

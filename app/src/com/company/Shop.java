@@ -8,6 +8,8 @@ import java.util.List;
 public class Shop {
     private List<Product> products;
     private List<Worker> workers;
+    private List<CashRegister> cashRegisters;
+    
 
     private String name;
     private double foodSurplus;
@@ -24,6 +26,7 @@ public class Shop {
 
         products = new ArrayList<Product>();
         workers = new ArrayList<Worker>();
+        cashRegisters = new ArrayList<CashRegister>();
     }
     public Shop(){}
 
@@ -36,6 +39,9 @@ public class Shop {
     public void AddWorker(Worker worker) {
         workers.add(worker);
     }
+    public void AddCashRegister(CashRegister cashRegister){
+        this.cashRegisters.add(cashRegister);
+    }
     public String getName(){
         return this.name;
     }
@@ -44,6 +50,9 @@ public class Shop {
     }
     public List<Worker> GetWorkers(){
         return this.workers;
+    }
+    public List<CashRegister> GetCashRegisters(){
+        return this.cashRegisters;
     }
 
     public Double CalculateProductPrice(Product product){
