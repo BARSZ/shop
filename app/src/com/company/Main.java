@@ -12,13 +12,14 @@ public class Main {
     private static int workerId = 1;
     public static void main(String[] args) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         List<Shop> shops = new ArrayList<Shop>();
 
         //region Add Metro Shop
         Shop metro = new Shop("Metro", 10, 15, 3, 10);
 
-        Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-09-30");
-        Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30");
+        Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-09-30", 60);
+        Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30", 87);
 
         Worker pesho = new Worker(workerId++,"Pesho", 700);
         Worker gregorii = new Worker(workerId++,"Gregorii", 960);
@@ -37,8 +38,8 @@ public class Main {
         //region Add Fantastiko Shop
         Shop fantastiko = new Shop("Fantastiko", 12, 16, 4, 10);
 
-        Product olio = new Product(productId++,"Olio", 12, Category.FOOD, "2022-09-30");
-        Product magdanoz = new Product(productId++,"Magdanoz", 1, Category.FOOD, "2022-09-30");
+        Product olio = new Product(productId++,"Olio", 12, Category.FOOD, "2022-09-30", 97);
+        Product magdanoz = new Product(productId++,"Magdanoz", 1, Category.FOOD, "2022-09-30", 0);
 
         Worker vivaldi = new Worker(workerId++,"Vivaldi", 730);
         Worker frodo = new Worker(workerId++,"Frodo", 570);
@@ -61,74 +62,83 @@ public class Main {
 
         while(Objects.equals(commandAgain, "y")) {
             System.out.println("Press 1 To Add Shop");
-            System.out.println("Press 2 To Add Products  To Shop");
+            System.out.println("Press 2 To Add Product To Shop");
             System.out.println("Press 3 To Add Workers To Shop");
-            System.out.println("Press 4 To Sell Products");
             System.out.println("Press 5 To See All Shops");
             System.out.println("Press 6 To See All Products For A Shop");
             System.out.println("Press 7 To See All Workers For A Shop");
             System.out.println("Press 8 To Calculate Price for Product In Shop");
+            System.out.println("Press 10 To Test Working Shop");
             command = Integer.parseInt(reader.readLine());
 
-            //ADD SHOP
             if (command == 1) {
                 Shop shop = EnterShop();
                 shops.add(shop);
-                System.out.println("Shop added\n" + System.lineSeparator() + shop.toString());
+                System.out.println("Shop added\n" + System.lineSeparator() + shop.toString() + System.lineSeparator());
             } else if (command == 2) {
                 PrintShops(shops);
-                System.out.println();
                 System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
-
-                System.out.println("Chosen shop is");
-                System.out.println();
-                System.out.println(chosenShop.toString());
-                Product product = EnterProduct();
-                chosenShop.AddProduct(product);
-                for (int i = 0; i < shops.size() ; i++) {
-                    if(Objects.equals(shops.get(i).getName(), chosenShop.getName())){
-                        shops.set(i, chosenShop);
-                        break;
+                if(chosenShop != null){
+                    System.out.println("Chosen shop is");
+                    System.out.println();
+                    System.out.println(chosenShop.toString());
+                    Product product = EnterProduct();
+                    chosenShop.AddProduct(product);
+                    for (int i = 0; i < shops.size() ; i++) {
+                        if(Objects.equals(shops.get(i).getName(), chosenShop.getName())){
+                            shops.set(i, chosenShop);
+                            break;
+                        }
                     }
+                    System.out.println("Product has been added!");
+                } else{
+                    System.out.println("Shop doesn't exist!");
                 }
-                System.out.println("Product has been added!");
+
 
             } else if (command == 3) {
                 PrintShops(shops);
-                System.out.println();
                 System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
-                System.out.println("Chosen shop is");
-                System.out.println();
-                System.out.println(chosenShop.toString());
+                if(chosenShop != null){
+                    System.out.println();
+                    System.out.println(chosenShop.toString());
 
-                Worker worker = EnterWorker();
+                    Worker worker = EnterWorker();
 
-                chosenShop.AddWorker(worker);
-                for (int i = 0; i < shops.size() ; i++) {
-                    if(Objects.equals(shops.get(i).getName(), chosenShop.getName())){
-                        shops.set(i, chosenShop);
-                        break;
+                    chosenShop.AddWorker(worker);
+                    for (int i = 0; i < shops.size() ; i++) {
+                        if(Objects.equals(shops.get(i).getName(), chosenShop.getName())){
+                            shops.set(i, chosenShop);
+                            break;
+                        }
                     }
+                    System.out.println("Worker has been added!");
+                } else {
+                    System.out.println("Shop doesn't exist!");
                 }
-                System.out.println("Worker has been added!");
+
             }else if (command == 4){
 
             }else if (command == 5){
                 PrintShops(shops);
             }else if (command == 6){
                 PrintShops(shops);
-                System.out.println();
                 System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
-                PrintProducts(chosenShop);
+                if(chosenShop != null){
+                    PrintProducts(chosenShop);
+                } else{
+                    System.out.println("Shop doesn't exist!");
+                }
+
             }else if(command == 7){
                 PrintShops(shops);
                 System.out.println();
@@ -136,46 +146,62 @@ public class Main {
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
-                PrintWorkers(chosenShop);
+                if(chosenShop != null){
+                    PrintWorkers(chosenShop);
+                } else{
+                    System.out.println("Shop doesn't exist!");
+                }
             }else if(command == 8){
                 PrintShops(shops);
-                System.out.println();
                 System.out.println("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
-                PrintProducts(chosenShop);
-                Product chosenProduct = ChooseProduct(chosenShop);
-                System.out.println("Chosen Product is:");
-                System.out.println();
-                System.out.println(chosenProduct.toString());
-                System.out.println("Final Product Price: " + chosenShop.CalculateProductPrice(chosenProduct));
-                System.out.println("Expiration Date: " + chosenProduct.GetProductExpirationDate());
+                if(chosenShop != null){
+                    PrintProducts(chosenShop);
+                    Product chosenProduct = ChooseProduct(chosenShop);
+                    if(chosenProduct != null){
+                        System.out.println("Price: " + chosenShop.CalculateProductPrice(chosenProduct) + " lev");
+                    }else {
+                        System.out.println("Product doesn't exist!");
+                    }
+                } else{
+                    System.out.println("Shop doesn't exist!");
+                }
+
+            }else if(command == 10){
+
             }else {
-                System.out.println("Try Again");
+                System.out.println("Enter Valid Command");
             }
-            System.out.println();
-            System.out.println("Do you want to enter again? y/n");
+            System.out.println("Do you want to enter new command? y/n");
             commandAgain = reader.readLine();
         }
     }
     public static void PrintShops(List<Shop> shops){
         shops.forEach(value -> System.out.println(value+ "\n"));
-        System.out.println();
     }
     public static void PrintProducts(Shop shop){
         List<Product> products = shop.GetProducts();
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println(products.get(i).toString());
+        if(products.size() == 0){
+            System.out.println("Shop doesn't have any products!");
+        }else{
+            for (int i = 0; i < products.size(); i++) {
+                System.out.println(products.get(i).toString());
+            }
+            System.out.println();
         }
-        System.out.println();
     }
     public static void PrintWorkers(Shop shop){
         List<Worker> workers = shop.GetWorkers();
-        for (int i = 0; i < workers.size(); i++) {
-            System.out.println(workers.get(i).toString());
+        if(workers.size() == 0){
+            System.out.println("There are no workers in this shop!");
+        }else {
+            for (int i = 0; i < workers.size(); i++) {
+                System.out.println(workers.get(i).toString());
+            }
+            System.out.println();
         }
-        System.out.println();
     }
     public static Shop EnterShop() throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -221,22 +247,24 @@ public class Main {
         }else{
             category1 = Category.NONFOOD;
         }
-        System.out.println("Please Enter Date in Format: yyyy-mm-dd");
+        System.out.println("Please Enter Expiration Date in Format: yyyy-mm-dd");
         String date = reader.readLine();
 
-        Product product = new Product(productId++, name, price, category1, date);
+        System.out.print("Enter Stock For Product: ");
+        int stock = Integer.parseInt(reader.readLine());
+        Product product = new Product(productId++, name, price, category1, date, stock);
         return product;
     }
     public static Worker EnterWorker() throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println();
-        System.out.println("Add Worker To Shop:");
+        System.out.println("Add Worker To Shop");
 
-        System.out.println("Enter Name For Worker");
+        System.out.print("Enter Name For Worker: ");
         String name = reader.readLine();
 
-        System.out.println("Enter Salary For Worker:");
+        System.out.print("Enter Salary For Worker: ");
         double salary = Double.parseDouble(reader.readLine());
 
         Worker worker = new Worker(workerId++, name, salary);
@@ -247,28 +275,26 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         String name = reader.readLine();
-        Shop chosenShop = new Shop();
         for (int i = 0; i < shops.size(); i++) {
             if(Objects.equals(shops.get(i).getName(), name)){
-                chosenShop = shops.get(i);
-                break;
+                Shop chosenShop = shops.get(i);
+                return chosenShop;
             }
         }
-        return chosenShop;
+        return null;
     }
     public static Product ChooseProduct(Shop shop)throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("Enter Product Name:");
+        System.out.print("Enter Product Name: ");
         String name = reader.readLine();
-        Product product = new Product();
         for (int i = 0; i < shop.GetProducts().size(); i++) {
             if(Objects.equals(shop.GetProducts().get(i).GetName(), name)){
-                product = shop.GetProducts().get(i);
-                break;
+                Product product = shop.GetProducts().get(i);
+                return product;
             }
         }
-        return product;
+        return null;
     }
 }
 

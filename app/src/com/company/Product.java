@@ -4,18 +4,19 @@ import java.time.LocalDate;
 public class Product extends Base {
     private Category category;
     private final String expirationDate;
-
-    public Product(int id, String name, double price, Category category, String expirationDate){
+    private int stock;
+    public Product(int id, String name, double price, Category category, String expirationDate, int stock){
         super(id, name, price);
         this.category = category;
         this.expirationDate = expirationDate;
+        this.stock = stock;
     }
     public Product(){
         this.expirationDate = "2022-08-09";
     }
     @Override public String toString(){
         System.out.println();
-        return (super.toString() + "\nExpiration Date: " + this.expirationDate);
+        return (super.toString() + "\nExpiration Date: " + this.expirationDate + "\nStock: " + this.stock);
     }
     public Category GetProductCategory(){
         return this.category;
