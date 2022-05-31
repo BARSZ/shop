@@ -20,6 +20,8 @@ public class Main {
 
         Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-09-30", 60);
         Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30", 87);
+        Product sladoled = new Product(productId++,"Sladoled", 12, Category.FOOD, "2022-09-30", 90);
+        Product salam = new Product(productId++,"Salam", 15, Category.FOOD, "2022-09-30", 10);
 
         Worker pesho = new Worker(workerId++,"Pesho", 700);
         Worker gregorii = new Worker(workerId++,"Gregorii", 960);
@@ -29,6 +31,8 @@ public class Main {
 
         metro.AddProduct(sapun);
         metro.AddProduct(shampoo);
+        metro.AddProduct(sladoled);
+        metro.AddProduct(salam);
         metro.AddWorker(pesho);
         metro.AddWorker(gregorii);
         metro.AddCashRegister(cashRegisterM);
@@ -40,6 +44,8 @@ public class Main {
 
         Product olio = new Product(productId++,"Olio", 12, Category.FOOD, "2022-09-30", 97);
         Product magdanoz = new Product(productId++,"Magdanoz", 1, Category.FOOD, "2022-09-30", 0);
+        Product brokoli = new Product(productId++,"Brokoli", 2, Category.FOOD, "2022-09-30", 3);
+        Product kroasan = new Product(productId++,"Kroasan", 5, Category.FOOD, "2022-09-30", 32);
 
         Worker vivaldi = new Worker(workerId++,"Vivaldi", 730);
         Worker frodo = new Worker(workerId++,"Frodo", 570);
@@ -49,6 +55,8 @@ public class Main {
 
         fantastiko.AddProduct(olio);
         fantastiko.AddProduct(magdanoz);
+        fantastiko.AddProduct(brokoli);
+        fantastiko.AddProduct(kroasan);
         fantastiko.AddWorker(vivaldi);
         fantastiko.AddWorker(frodo);
         fantastiko.AddCashRegister(cashRegisterF);
@@ -74,10 +82,13 @@ public class Main {
             command = Integer.parseInt(reader.readLine());
 
             if (command == 1) {
+                //region Add Shop
                 Shop shop = EnterShop();
                 shops.add(shop);
                 System.out.println("Shop added\n" + System.lineSeparator() + shop.toString() + System.lineSeparator());
+                //endregion
             } else if (command == 2) {
+                //region Add Product To Shop
                 PrintShops(shops);
                 System.out.print("Enter Shop Name: ");
 
@@ -99,9 +110,9 @@ public class Main {
                 } else{
                     System.out.println("Shop doesn't exist!");
                 }
-
-
+                //endregion
             } else if (command == 3) {
+                //region Add Worker To Shop
                 PrintShops(shops);
                 System.out.print("Enter Shop Name: ");
 
@@ -124,12 +135,13 @@ public class Main {
                 } else {
                     System.out.println("Shop doesn't exist!");
                 }
-
+                //endregion
             }else if (command == 4){
 
             }else if (command == 5){
                 PrintShops(shops);
             }else if (command == 6){
+                //region Print Products
                 PrintShops(shops);
                 System.out.print("Enter Shop Name: ");
 
@@ -140,8 +152,9 @@ public class Main {
                 } else{
                     System.out.println("Shop doesn't exist!");
                 }
-
+                //endregion
             }else if(command == 7){
+                //region Print Workers
                 PrintShops(shops);
                 System.out.println();
                 System.out.print("Enter Shop Name: ");
@@ -153,9 +166,11 @@ public class Main {
                 } else{
                     System.out.println("Shop doesn't exist!");
                 }
+                //endregion
             }else if(command == 8){
+                //region Calculate Price For Product
                 PrintShops(shops);
-                System.out.println("Enter Shop Name: ");
+                System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
@@ -170,26 +185,91 @@ public class Main {
                 } else{
                     System.out.println("Shop doesn't exist!");
                 }
-
+                //endregion
             }else if(command == 10){
+                //region Threads Simulation
                 PrintShops(shops);
-                System.out.println("Enter Shop Name: ");
+                System.out.print("Enter Shop Name: ");
 
                 //CHOOSE SHOP
                 Shop chosenShop = ChooseShop(shops);
                 if(chosenShop != null){
-                    MyThread t1 = new MyThread();
-                    MyThread t2 = new MyThread();
-                    t1.start();
-                    t2.start();
-                    while(t1.isAlive() && t2.isAlive()){
-                        //Wait
+                    System.out.println("Do you want to enter clients? y/n ");
+                    String enterClientCommand = reader.readLine();
+                    if(Objects.equals(enterClientCommand, "y")){
+
+                    }else if(Objects.equals(enterClientCommand, "n")){
+                        System.out.println("Creating sample clients data...");
+                        System.out.println();
+                        Client c1 = new Client("Velizar", 35);
+                        Client c2 = new Client("Silvestur", 45);
+                        Client c3 = new Client("Achelous", 99);
+                        Client c4 = new Client("Theseus", 82);
+                        List<Client> clients = new ArrayList<Client>();
+                        Product p1 = chosenShop.GetProducts().get(0);
+                        Product p2 = chosenShop.GetProducts().get(1);
+                        Product p3 = chosenShop.GetProducts().get(2);
+                        Product p4 = chosenShop.GetProducts().get(3);
+
+                        c1.AddProduct(p1);
+                        c1.AddToBill(chosenShop.CalculateProductPrice(p1));
+                        c1.AddProduct(p2);
+                        c1.AddToBill(chosenShop.CalculateProductPrice(p2));
+
+                        c2.AddProduct(p3);
+                        c2.AddToBill(chosenShop.CalculateProductPrice(p3));
+                        c2.AddProduct(p4);
+                        c2.AddToBill(chosenShop.CalculateProductPrice(p4));
+
+                        c3.AddProduct(p1);
+                        c3.AddToBill(chosenShop.CalculateProductPrice(p1));
+                        c3.AddProduct(p4);
+                        c3.AddToBill(chosenShop.CalculateProductPrice(p4));
+
+                        c4.AddProduct(p2);
+                        c4.AddToBill(chosenShop.CalculateProductPrice(p2));
+                        c4.AddProduct(p3);
+                        c4.AddToBill(chosenShop.CalculateProductPrice(p3));
+
+                        Thread t1 = new Thread(new MyThread(chosenShop, c1));
+                        Thread t2 = new Thread(new MyThread(chosenShop, c2));
+                        Thread t3 = new Thread(new MyThread(chosenShop, c3));
+                        Thread t4 = new Thread(new MyThread(chosenShop, c4));
+
+                        t1.start();
+                        t2.start();
+                        t3.start();
+                        t4.start();
+
+                        while(t1.isAlive() || t2.isAlive() || t3.isAlive() || t4.isAlive()){
+
+                        }
+                        clients.add(c1);
+                        clients.add(c2);
+                        clients.add(c3);
+                        clients.add(c4);
+                        System.out.println(c1.GetName() + "'s bill is " + c1.GetCurrentBill());
+                        System.out.println(c2.GetName() + "'s bill is " + c2.GetCurrentBill());
+                        System.out.println(c3.GetName() + "'s bill is " + c3.GetCurrentBill());
+                        System.out.println(c4.GetName() + "'s bill is " + c4.GetCurrentBill());
+
+                        System.out.println("Do you want a receipt? y/n");
+                        String getReceiptCommand = reader.readLine();
+                        if(Objects.equals(getReceiptCommand, "y")){
+                            PrintClients(clients);
+                        }
+
+                    }else{
+                        System.out.println("Invalid command!");
                     }
                 }else{
                     System.out.println("Shop doesn't exist!");
                 }
+                //endregion
             }else {
+                //region Invalid Command
                 System.out.println("Enter Valid Command");
+                //endregion
             }
             System.out.println("Do you want to enter new command? y/n");
             commandAgain = reader.readLine();
@@ -219,6 +299,9 @@ public class Main {
             }
             System.out.println();
         }
+    }
+    public static void PrintClients(List<Client> clients){
+        clients.forEach(value -> System.out.println(value.toString() + "\n"));
     }
     public static Shop EnterShop() throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
