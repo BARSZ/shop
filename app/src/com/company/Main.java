@@ -61,6 +61,7 @@ public class Main {
         String commandAgain = "y";
 
         while(Objects.equals(commandAgain, "y")) {
+            //region Commands
             System.out.println("Press 1 To Add Shop");
             System.out.println("Press 2 To Add Product To Shop");
             System.out.println("Press 3 To Add Workers To Shop");
@@ -69,6 +70,7 @@ public class Main {
             System.out.println("Press 7 To See All Workers For A Shop");
             System.out.println("Press 8 To Calculate Price for Product In Shop");
             System.out.println("Press 10 To Test Working Shop");
+            //endregion
             command = Integer.parseInt(reader.readLine());
 
             if (command == 1) {
@@ -170,7 +172,22 @@ public class Main {
                 }
 
             }else if(command == 10){
+                PrintShops(shops);
+                System.out.println("Enter Shop Name: ");
 
+                //CHOOSE SHOP
+                Shop chosenShop = ChooseShop(shops);
+                if(chosenShop != null){
+                    MyThread t1 = new MyThread();
+                    MyThread t2 = new MyThread();
+                    t1.start();
+                    t2.start();
+                    while(t1.isAlive() && t2.isAlive()){
+                        //Wait
+                    }
+                }else{
+                    System.out.println("Shop doesn't exist!");
+                }
             }else {
                 System.out.println("Enter Valid Command");
             }
