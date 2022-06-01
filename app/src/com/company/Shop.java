@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Shop {
     private List<Product> products;
@@ -54,7 +55,6 @@ public class Shop {
     public List<CashRegister> GetCashRegisters(){
         return this.cashRegisters;
     }
-
     public Double CalculateProductPrice(Product product){
         double result;
         double initialPrice = product.GetPrice();
@@ -70,5 +70,9 @@ public class Shop {
             result += result * this.percentDiscount / 100;
         }
         return result;
+    }
+    public CashRegister GetRandomCashRegister(){
+        Random rand = new Random();
+        return cashRegisters.get(rand.nextInt(cashRegisters.size()));
     }
 }

@@ -14,4 +14,7 @@ public class CashRegister {
     public void ChangeCashier(Worker cashier){
         this.cashier = cashier;
     }
+    public String GetName(){
+        return this.name;
+    }
 }

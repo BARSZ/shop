@@ -8,6 +8,7 @@ public class Client {
     private double money;
     private double bill;
     private List<Product> basket;
+    private CashRegister cashRegister;
 
     public Client(String name, double money){
         this.name = name;
@@ -47,6 +48,12 @@ public class Client {
     }
     public void AddToBill(double bill){
         this.bill += bill;
+    }
+    public void AssignCashRegister(CashRegister cashRegister){
+        this.cashRegister = cashRegister;
+    }
+    public CashRegister GetCashRegister(){
+        return this.cashRegister;
     }
     @Override
     public String toString() {

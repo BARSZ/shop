@@ -25,9 +25,13 @@ public class Main {
 
         Worker pesho = new Worker(workerId++,"Pesho", 700);
         Worker gregorii = new Worker(workerId++,"Gregorii", 960);
+        Worker panaiotis = new Worker(workerId++,"Panaiotis", 1200);
+        Worker emanuil = new Worker(workerId++,"Emanuil", 1050);
 
         CashRegister cashRegisterM = new CashRegister("A", pesho);
         CashRegister cashRegisterM1 = new CashRegister("B", gregorii);
+        CashRegister cashRegisterM2 = new CashRegister("C", panaiotis);
+        CashRegister cashRegisterM3 = new CashRegister("D", emanuil);
 
         metro.AddProduct(sapun);
         metro.AddProduct(shampoo);
@@ -35,8 +39,12 @@ public class Main {
         metro.AddProduct(salam);
         metro.AddWorker(pesho);
         metro.AddWorker(gregorii);
+        metro.AddWorker(panaiotis);
+        metro.AddWorker(emanuil);
         metro.AddCashRegister(cashRegisterM);
         metro.AddCashRegister(cashRegisterM1);
+        metro.AddCashRegister(cashRegisterM2);
+        metro.AddCashRegister(cashRegisterM3);
         //endregion
 
         //region Add Fantastiko Shop
@@ -49,9 +57,13 @@ public class Main {
 
         Worker vivaldi = new Worker(workerId++,"Vivaldi", 730);
         Worker frodo = new Worker(workerId++,"Frodo", 570);
+        Worker sam = new Worker(workerId++,"Sam", 1500);
+        Worker joro = new Worker(workerId++,"Joro", 570);
 
-        CashRegister cashRegisterF = new CashRegister("A", vivaldi);
-        CashRegister cashRegisterF1 = new CashRegister("B", frodo);
+        CashRegister cashRegisterF = new CashRegister("E", vivaldi);
+        CashRegister cashRegisterF1 = new CashRegister("F", frodo);
+        CashRegister cashRegisterF2 = new CashRegister("G", sam);
+        CashRegister cashRegisterF3 = new CashRegister("H", joro);
 
         fantastiko.AddProduct(olio);
         fantastiko.AddProduct(magdanoz);
@@ -59,8 +71,12 @@ public class Main {
         fantastiko.AddProduct(kroasan);
         fantastiko.AddWorker(vivaldi);
         fantastiko.AddWorker(frodo);
+        fantastiko.AddWorker(sam);
+        fantastiko.AddWorker(joro);
         fantastiko.AddCashRegister(cashRegisterF);
         fantastiko.AddCashRegister(cashRegisterF1);
+        fantastiko.AddCashRegister(cashRegisterF2);
+        fantastiko.AddCashRegister(cashRegisterF3);
         //endregion
 
         shops.add(metro);
@@ -248,10 +264,11 @@ public class Main {
                         clients.add(c2);
                         clients.add(c3);
                         clients.add(c4);
-                        System.out.println(c1.GetName() + "'s bill is " + c1.GetCurrentBill());
-                        System.out.println(c2.GetName() + "'s bill is " + c2.GetCurrentBill());
-                        System.out.println(c3.GetName() + "'s bill is " + c3.GetCurrentBill());
-                        System.out.println(c4.GetName() + "'s bill is " + c4.GetCurrentBill());
+                        List<Client> finishedClients = AssignCashRegisters(clients, chosenShop);
+                        PrintFinalClientInfo(c1);
+                        PrintFinalClientInfo(c2);
+                        PrintFinalClientInfo(c3);
+                        PrintFinalClientInfo(c4);
 
                         System.out.println("Do you want a receipt? y/n");
                         String getReceiptCommand = reader.readLine();
@@ -395,6 +412,19 @@ public class Main {
             }
         }
         return null;
+    }
+    public static List<Client> AssignCashRegisters(List<Client> clients, Shop chosenShop){
+        if(chosenShop.GetCashRegisters().size() > 0){
+            for (int i = 0; i < clients.size(); i++) {
+                clients.get(i).AssignCashRegister(chosenShop.GetRandomCashRegister());
+            }
+        } else{
+            return null;
+        }
+        return clients;
+    }
+    public static void PrintFinalClientInfo(Client client){
+        System.out.println(client.GetName() + " is on cash register " + client.GetCashRegister().GetName() + " with worker " + client.GetCashRegister().GetCashier().GetName() +  " and his bill is " + client.GetCurrentBill() + " leva");
     }
 }
 
