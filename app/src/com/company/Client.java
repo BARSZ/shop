@@ -22,8 +22,22 @@ public class Client {
     public List<Product> GetBasket(){
         return this.basket;
     }
-    public void AddProduct(Product product){
-        basket.add(product);
+    public void AddProduct(Product product, Double productPrice){
+        try{
+            Thread.sleep(1000);
+            if(this.money - productPrice >= 0){
+                basket.add(product);
+                this.money -= productPrice;
+                this.AddToBill(productPrice);
+            }else{
+                throw new NotEnoughMoneyException("You don't have enough money bro");
+            }
+        }catch (NotEnoughMoneyException ex){
+            System.out.println(this.GetName() + " doesn't have enough money to buy " + product.GetName());
+            System.out.println();
+        }catch (InterruptedException interruptedException){
+
+        }
     }
     public void RemoveProduct(Product product){
         for (Product p : this.basket)

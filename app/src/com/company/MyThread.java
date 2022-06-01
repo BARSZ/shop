@@ -10,7 +10,7 @@ public class MyThread implements Runnable{
     public void run() {
         for (int i = 0; i < client.GetBasket().size() ; i++) {
             try{
-                Thread.sleep(4000);
+                Thread.sleep(2000);
                 Product product = client.GetBasket().get(i);
                 System.out.println(client.GetName() + " buys " + product.GetName() + " for " + this.shop.CalculateProductPrice(product));
                 System.out.println();

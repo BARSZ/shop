@@ -18,7 +18,7 @@ public class Main {
         //region Add Metro Shop
         Shop metro = new Shop("Metro", 10, 15, 3, 10);
 
-        Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-09-30", 60);
+        Product sapun = new Product(productId++,"Sapun", 500, Category.NONFOOD, "2022-09-30", 60);
         Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30", 87);
         Product sladoled = new Product(productId++,"Sladoled", 12, Category.FOOD, "2022-09-30", 90);
         Product salam = new Product(productId++,"Salam", 15, Category.FOOD, "2022-09-30", 10);
@@ -227,25 +227,17 @@ public class Main {
                         Product p3 = chosenShop.GetProducts().get(2);
                         Product p4 = chosenShop.GetProducts().get(3);
 
-                        c1.AddProduct(p1);
-                        c1.AddToBill(chosenShop.CalculateProductPrice(p1));
-                        c1.AddProduct(p2);
-                        c1.AddToBill(chosenShop.CalculateProductPrice(p2));
+                        c1.AddProduct(p1, chosenShop.CalculateProductPrice(p1));
+                        c1.AddProduct(p2, chosenShop.CalculateProductPrice(p2));
 
-                        c2.AddProduct(p3);
-                        c2.AddToBill(chosenShop.CalculateProductPrice(p3));
-                        c2.AddProduct(p4);
-                        c2.AddToBill(chosenShop.CalculateProductPrice(p4));
+                        c2.AddProduct(p3, chosenShop.CalculateProductPrice(p3));
+                        c2.AddProduct(p4, chosenShop.CalculateProductPrice(p4));
 
-                        c3.AddProduct(p1);
-                        c3.AddToBill(chosenShop.CalculateProductPrice(p1));
-                        c3.AddProduct(p4);
-                        c3.AddToBill(chosenShop.CalculateProductPrice(p4));
+                        c3.AddProduct(p1, chosenShop.CalculateProductPrice(p1));
+                        c3.AddProduct(p4, chosenShop.CalculateProductPrice(p4));
 
-                        c4.AddProduct(p2);
-                        c4.AddToBill(chosenShop.CalculateProductPrice(p2));
-                        c4.AddProduct(p3);
-                        c4.AddToBill(chosenShop.CalculateProductPrice(p3));
+                        c4.AddProduct(p2, chosenShop.CalculateProductPrice(p2));
+                        c4.AddProduct(p3, chosenShop.CalculateProductPrice(p3));
 
                         Thread t1 = new Thread(new MyThread(chosenShop, c1));
                         Thread t2 = new Thread(new MyThread(chosenShop, c2));
