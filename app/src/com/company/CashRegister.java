@@ -1,10 +1,10 @@
 package com.company;
 
 public class CashRegister {
-    private String name;
+    private char name;
     private Worker cashier;
 
-    public CashRegister(String name, Worker cashier){
+    public CashRegister(char name, Worker cashier){
         this.name = name;
         this.cashier = cashier;
     }
@@ -14,7 +14,7 @@ public class CashRegister {
     public void ChangeCashier(Worker cashier){
         this.cashier = cashier;
     }
-    public String GetName(){
+    public char GetName(){
         return this.name;
     }
 }

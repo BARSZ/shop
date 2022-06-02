@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Client {
     private String name;
@@ -25,6 +26,9 @@ public class Client {
     public void AddProduct(Product product, Double productPrice){
         try{
             Thread.sleep(1000);
+            if(product.isExpired()){
+                throw new ProductExpiredException(this.name + " cannot buy " + product.GetName() + " because product is expired!");
+            }
             if(this.money - productPrice >= 0){
                 basket.add(product);
                 this.money -= productPrice;
@@ -32,20 +36,18 @@ public class Client {
             }else{
                 throw new NotEnoughMoneyException("You don't have enough money bro");
             }
-        }catch (NotEnoughMoneyException ex){
+        }catch (NotEnoughMoneyException notEnoughMoneyException){
             System.out.println(this.GetName() + " doesn't have enough money to buy " + product.GetName());
             System.out.println();
-        }catch (InterruptedException interruptedException){
-
+        }catch (ProductExpiredException productExpiredException) {
+            System.out.println(productExpiredException.getMessage());
+            System.out.println();
+        }catch(InterruptedException interruptedException){
+            System.out.println("Interrupted Exception");
         }
     }
     public void RemoveProduct(Product product){
-        for (Product p : this.basket)
-        {
-            if(p.GetName() == product.GetName()){
-                basket.remove(p);
-            }
-        }
+        this.basket.removeIf(p -> Objects.equals(p.GetName(), product.GetName()));
     }
     public void PrintBasket(){
         System.out.println("Basket for " + this.name);
@@ -71,6 +73,6 @@ public class Client {
     }
     @Override
     public String toString() {
-        return "Client: " + this.name + "\nMoney: " + this.money + "\nCurrent Bill is: " + this.bill;
+        return "Client: " + this.name + "\nMoney: " + (Math.round(this.money * 100.0) / 100.0) + "\nCurrent Bill is: " + this.bill;
     }
 }

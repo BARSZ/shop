@@ -28,6 +28,7 @@ public class Shop {
         products = new ArrayList<Product>();
         workers = new ArrayList<Worker>();
         cashRegisters = new ArrayList<CashRegister>();
+        AssignRandomCashRegister();
     }
     public Shop(){}
 
@@ -74,5 +75,14 @@ public class Shop {
     public CashRegister GetRandomCashRegister(){
         Random rand = new Random();
         return cashRegisters.get(rand.nextInt(cashRegisters.size()));
+    }
+    public void AssignRandomCashRegister(){
+        Random r = new Random();
+        char c = (char)(r.nextInt(26) + 'A');
+
+        for (int i = 0; i < workers.size(); i++) {
+            CashRegister cashRegister = new CashRegister(c, workers.get(i));
+            cashRegisters.add(cashRegister);
+        }
     }
 }

@@ -24,4 +24,10 @@ public class Product extends Base {
     public LocalDate GetProductExpirationDate(){
         return LocalDate.parse(this.expirationDate);
     }
+    public boolean isExpired(){
+        if(this.GetProductExpirationDate().isBefore(LocalDate.now())){
+            return true;
+        }
+        return false;
+    }
 }

@@ -2,10 +2,12 @@ package com.company;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class Main {
     private static int productId = 1;
@@ -18,7 +20,7 @@ public class Main {
         //region Add Metro Shop
         Shop metro = new Shop("Metro", 10, 15, 3, 10);
 
-        Product sapun = new Product(productId++,"Sapun", 500, Category.NONFOOD, "2022-09-30", 60);
+        Product sapun = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-01-30", 60);
         Product shampoo = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30", 87);
         Product sladoled = new Product(productId++,"Sladoled", 12, Category.FOOD, "2022-09-30", 90);
         Product salam = new Product(productId++,"Salam", 15, Category.FOOD, "2022-09-30", 10);
@@ -28,10 +30,10 @@ public class Main {
         Worker panaiotis = new Worker(workerId++,"Panaiotis", 1200);
         Worker emanuil = new Worker(workerId++,"Emanuil", 1050);
 
-        CashRegister cashRegisterM = new CashRegister("A", pesho);
-        CashRegister cashRegisterM1 = new CashRegister("B", gregorii);
-        CashRegister cashRegisterM2 = new CashRegister("C", panaiotis);
-        CashRegister cashRegisterM3 = new CashRegister("D", emanuil);
+        CashRegister cashRegisterM = new CashRegister('A', pesho);
+        CashRegister cashRegisterM1 = new CashRegister('B', gregorii);
+        CashRegister cashRegisterM2 = new CashRegister('C', panaiotis);
+        CashRegister cashRegisterM3 = new CashRegister('D', emanuil);
 
         metro.AddProduct(sapun);
         metro.AddProduct(shampoo);
@@ -60,10 +62,10 @@ public class Main {
         Worker sam = new Worker(workerId++,"Sam", 1500);
         Worker joro = new Worker(workerId++,"Joro", 570);
 
-        CashRegister cashRegisterF = new CashRegister("E", vivaldi);
-        CashRegister cashRegisterF1 = new CashRegister("F", frodo);
-        CashRegister cashRegisterF2 = new CashRegister("G", sam);
-        CashRegister cashRegisterF3 = new CashRegister("H", joro);
+        CashRegister cashRegisterF = new CashRegister('E', vivaldi);
+        CashRegister cashRegisterF1 = new CashRegister('F', frodo);
+        CashRegister cashRegisterF2 = new CashRegister('G', sam);
+        CashRegister cashRegisterF3 = new CashRegister('H', joro);
 
         fantastiko.AddProduct(olio);
         fantastiko.AddProduct(magdanoz);
@@ -213,19 +215,55 @@ public class Main {
                     System.out.println("Do you want to enter clients? y/n ");
                     String enterClientCommand = reader.readLine();
                     if(Objects.equals(enterClientCommand, "y")){
+                        List<Client> clients = new ArrayList<Client>();
+                        String enterAnotherClientCommand = "n";
+                        do{
+                            Client client = EnterClient();
+                            clients.add(client);
+                            System.out.println("Do you want to enter another client? y/n ");
+                            enterAnotherClientCommand = reader.readLine();
+                        }while(Objects.equals(enterAnotherClientCommand, "y"));
+                        do{
+                            System.out.println("Choose For Which Client to Add Products:");
+                            PrintClients(clients);
+                            System.out.print("Client name: ");
+                            Client chosenClient = ChooseClient(clients);
+                            if(chosenClient != null){
+                                String addAnotherProduct = "n";
+                                do{
+                                    System.out.println("Choose Product To Add");
+                                    PrintProducts(chosenShop);
+                                    Product productToAdd = ChooseProduct(chosenShop);
+                                    if(productToAdd != null){
+                                        chosenClient.AddProduct(productToAdd, chosenShop.CalculateProductPrice(productToAdd));
+                                    }else{
+                                        System.out.println("Invalid Product!");
+                                    }
+                                    System.out.println("Add another product for this client? y/n");
+                                    addAnotherProduct = reader.readLine();
+                                }while(Objects.equals(addAnotherProduct, "y"));
 
+                            }else{
+                                System.out.println("Invalid Client Chosen!");
+                            }
+                            System.out.println("Do you want to add products for another Client? y/n");
+                            enterAnotherClientCommand = reader.readLine();
+                        }while(Objects.equals(enterAnotherClientCommand, "y"));
+                        for (int i = 0; i < clients.size(); i++) {
+                            PrintFinalClientInfo(clients.get(i));
+                        }
                     }else if(Objects.equals(enterClientCommand, "n")){
                         System.out.println("Creating sample clients data...");
                         System.out.println();
                         Client c1 = new Client("Velizar", 35);
-                        Client c2 = new Client("Silvestur", 45);
-                        Client c3 = new Client("Achelous", 99);
-                        Client c4 = new Client("Theseus", 82);
+                        Client c2 = new Client("Silvestur", 40);
+                        Client c3 = new Client("Achelous", 39);
+                        Client c4 = new Client("Theseus", 12);
                         List<Client> clients = new ArrayList<Client>();
-                        Product p1 = chosenShop.GetProducts().get(0);
-                        Product p2 = chosenShop.GetProducts().get(1);
-                        Product p3 = chosenShop.GetProducts().get(2);
-                        Product p4 = chosenShop.GetProducts().get(3);
+                        Product p1 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
+                        Product p2 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
+                        Product p3 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
+                        Product p4 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
 
                         c1.AddProduct(p1, chosenShop.CalculateProductPrice(p1));
                         c1.AddProduct(p2, chosenShop.CalculateProductPrice(p2));
@@ -294,8 +332,18 @@ public class Main {
         }else{
             for (int i = 0; i < products.size(); i++) {
                 System.out.println(products.get(i).toString());
+                System.out.println("Shop price: " + shop.CalculateProductPrice(products.get(i)));
             }
             System.out.println();
+        }
+    }
+    public static void PrintAddedProductsForClient(Client client){
+        if(client.GetBasket().size() > 0){
+            for (int i = 0; i < client.GetBasket().size() ; i++) {
+                System.out.println(client.GetBasket().get(i).GetName());
+            }
+        }else{
+            System.out.println("There are no added products for " + client.GetName());
         }
     }
     public static void PrintWorkers(Shop shop){
@@ -380,6 +428,22 @@ public class Main {
 
         return worker;
     }
+    public static Client EnterClient() throws IOException{
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println();
+        System.out.println("Enter Client");
+
+        System.out.print("Enter Name For Client: ");
+        String name = reader.readLine();
+
+        System.out.print("Money: ");
+        double money = Double.parseDouble(reader.readLine());
+
+       Client client = new Client(name, money);
+
+       return client;
+    }
     public static Shop ChooseShop(List<Shop> shops)throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -405,6 +469,18 @@ public class Main {
         }
         return null;
     }
+    public static Client ChooseClient(List<Client> clients)throws IOException{
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        String name = reader.readLine();
+        for (int i = 0; i < clients.size(); i++) {
+            if(Objects.equals(clients.get(i).GetName(), name)){
+                Client chosenClient = clients.get(i);
+                return chosenClient;
+            }
+        }
+        return null;
+    }
     public static List<Client> AssignCashRegisters(List<Client> clients, Shop chosenShop){
         if(chosenShop.GetCashRegisters().size() > 0){
             for (int i = 0; i < clients.size(); i++) {
@@ -418,6 +494,11 @@ public class Main {
     public static void PrintFinalClientInfo(Client client){
         System.out.println(client.GetName() + " is on cash register " + client.GetCashRegister().GetName() + " with worker " + client.GetCashRegister().GetCashier().GetName() +  " and his bill is " + client.GetCurrentBill() + " leva");
     }
+    public static int GetRandomNumberForProduct(List<Product> products){
+        Random random = new Random();
+        return random.nextInt(products.size());
+    }
+
 }
 
 
