@@ -1,5 +1,8 @@
 package com.company;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +35,7 @@ public class Client {
             if(this.money - productPrice >= 0){
                 basket.add(product);
                 this.money -= productPrice;
+                product.RemoveFromStock();
                 this.AddToBill(productPrice);
             }else{
                 throw new NotEnoughMoneyException("You don't have enough money bro");
@@ -73,6 +77,17 @@ public class Client {
     }
     @Override
     public String toString() {
-        return "Client: " + this.name + "\nMoney: " + (Math.round(this.money * 100.0) / 100.0) + "\nCurrent Bill is: " + this.bill;
+        return "Client: " + this.name + "\nMoney: " + (Math.round(this.money * 100.0) / 100.0) + "\nCurrent Bill is: " + (Math.round(this.bill * 100.0) / 100.0);
+    }
+    public String GetReceiptInfo(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String result = this.GetName() + "\n--------" + "\nCashier: " + this.GetCashRegister().GetCashier().GetName() +  "\nDate and Time: " + dtf.format(now) + "\n--------\n" + "Products purchased\n";
+        for (int i = 0; i < basket.size() ; i++) {
+            result += basket.get(i).GetName() + "\n";
+        }
+        result += "Total: " + this.GetCurrentBill() + " leva";
+
+        return result;
     }
 }

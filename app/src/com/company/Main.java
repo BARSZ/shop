@@ -1,13 +1,14 @@
 package com.company;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.awt.Desktop;
+import java.io.*;
+
 
 public class Main {
     private static int productId = 1;
@@ -249,8 +250,19 @@ public class Main {
                             System.out.println("Do you want to add products for another Client? y/n");
                             enterAnotherClientCommand = reader.readLine();
                         }while(Objects.equals(enterAnotherClientCommand, "y"));
+                        clients = AssignCashRegisters(clients, chosenShop);
                         for (int i = 0; i < clients.size(); i++) {
                             PrintFinalClientInfo(clients.get(i));
+                        }
+                        System.out.println("Do you want a receipt? y/n");
+                        String getReceiptCommand = reader.readLine();
+                        if(Objects.equals(getReceiptCommand, "y")){
+                            String anotherReceipt = "n";
+                            do{
+                                PrintReceipt(clients);
+                                System.out.println("Do you want another receipt? y/n");
+                                anotherReceipt = reader.readLine();
+                            } while (Objects.equals(anotherReceipt, "y"));
                         }
                     }else if(Objects.equals(enterClientCommand, "n")){
                         System.out.println("Creating sample clients data...");
@@ -303,9 +315,13 @@ public class Main {
                         System.out.println("Do you want a receipt? y/n");
                         String getReceiptCommand = reader.readLine();
                         if(Objects.equals(getReceiptCommand, "y")){
-                            PrintClients(clients);
+                            String anotherReceipt = "n";
+                            do{
+                                PrintReceipt(clients);
+                                System.out.println("Do you want another receipt? y/n");
+                                anotherReceipt = reader.readLine();
+                            } while (Objects.equals(anotherReceipt, "y"));
                         }
-
                     }else{
                         System.out.println("Invalid command!");
                     }
@@ -498,7 +514,28 @@ public class Main {
         Random random = new Random();
         return random.nextInt(products.size());
     }
-
+    public static void PrintReceipt(List<Client> clients)throws IOException{
+        PrintClients(clients);
+        System.out.print("Enter client name for receipt: ");
+        Client chosenClient = ChooseClient(clients);
+        try {
+            assert chosenClient != null;
+            File receipt = new File("C:\\git repos\\shop\\Documents\\" + chosenClient.GetName() + ".txt");
+            Desktop desktop = Desktop.getDesktop();
+            if (receipt.createNewFile()) {
+                System.out.println("File created: " + receipt.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+            FileWriter myWriter = new FileWriter("C:\\git repos\\shop\\Documents\\" + chosenClient.GetName() + ".txt");
+            myWriter.write(chosenClient.GetReceiptInfo());
+            myWriter.close();
+            desktop.open(receipt);
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 }
 
 

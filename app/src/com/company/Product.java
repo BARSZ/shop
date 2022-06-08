@@ -30,4 +30,7 @@ public class Product extends Base {
         }
         return false;
     }
+    public void RemoveFromStock(){
+        this.stock -= 1;
+    }
 }
