@@ -26,6 +26,11 @@ public class Main {
         Product sladoled = new Product(productId++,"Sladoled", 12, Category.FOOD, "2022-09-30", 90);
         Product salam = new Product(productId++,"Salam", 15, Category.FOOD, "2022-09-30", 10);
 
+        Product olioM = new Product(productId++,"Olio", 12, Category.FOOD, "2022-09-30", 97);
+        Product magdanozM = new Product(productId++,"Magdanoz", 1, Category.FOOD, "2022-09-30", 0);
+        Product brokoliM = new Product(productId++,"Brokoli", 2, Category.FOOD, "2022-09-30", 3);
+        Product kroasanM = new Product(productId++,"Kroasan", 5, Category.FOOD, "2022-09-30", 32);
+
         Worker pesho = new Worker(workerId++,"Pesho", 700);
         Worker gregorii = new Worker(workerId++,"Gregorii", 960);
         Worker panaiotis = new Worker(workerId++,"Panaiotis", 1200);
@@ -40,6 +45,10 @@ public class Main {
         metro.AddProduct(shampoo);
         metro.AddProduct(sladoled);
         metro.AddProduct(salam);
+        metro.AddProduct(olioM);
+        metro.AddProduct(magdanozM);
+        metro.AddProduct(brokoliM);
+        metro.AddProduct(kroasanM);
         metro.AddWorker(pesho);
         metro.AddWorker(gregorii);
         metro.AddWorker(panaiotis);
@@ -58,6 +67,11 @@ public class Main {
         Product brokoli = new Product(productId++,"Brokoli", 2, Category.FOOD, "2022-09-30", 3);
         Product kroasan = new Product(productId++,"Kroasan", 5, Category.FOOD, "2022-09-30", 32);
 
+        Product sapunF = new Product(productId++,"Sapun", 5, Category.NONFOOD, "2022-01-30", 60);
+        Product shampooF = new Product(productId++,"Shampoo", 6, Category.NONFOOD, "2022-09-30", 87);
+        Product sladoledF = new Product(productId++,"Sladoled", 12, Category.FOOD, "2022-09-30", 90);
+        Product salamF = new Product(productId++,"Salam", 15, Category.FOOD, "2022-09-30", 10);
+
         Worker vivaldi = new Worker(workerId++,"Vivaldi", 730);
         Worker frodo = new Worker(workerId++,"Frodo", 570);
         Worker sam = new Worker(workerId++,"Sam", 1500);
@@ -72,6 +86,10 @@ public class Main {
         fantastiko.AddProduct(magdanoz);
         fantastiko.AddProduct(brokoli);
         fantastiko.AddProduct(kroasan);
+        fantastiko.AddProduct(sapunF);
+        fantastiko.AddProduct(shampooF);
+        fantastiko.AddProduct(sladoledF);
+        fantastiko.AddProduct(salamF);
         fantastiko.AddWorker(vivaldi);
         fantastiko.AddWorker(frodo);
         fantastiko.AddWorker(sam);
@@ -267,27 +285,37 @@ public class Main {
                     }else if(Objects.equals(enterClientCommand, "n")){
                         System.out.println("Creating sample clients data...");
                         System.out.println();
-                        Client c1 = new Client("Velizar", 35);
-                        Client c2 = new Client("Silvestur", 40);
-                        Client c3 = new Client("Achelous", 39);
-                        Client c4 = new Client("Theseus", 12);
+                        Client c1 = new Client("Sultan", 65);
+                        Client c2 = new Client("Dragan", 60);
+                        Client c3 = new Client("Ivan", 79);
+                        Client c4 = new Client("Petkan", 35);
                         List<Client> clients = new ArrayList<Client>();
-                        Product p1 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
-                        Product p2 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
-                        Product p3 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
-                        Product p4 = chosenShop.GetProducts().get(GetRandomNumberForProduct(chosenShop.GetProducts()));
+
+
+                        Product p1 = GetRandomProduct(chosenShop.GetProducts());
+                        Product p2 = GetRandomProduct(chosenShop.GetProducts());
+                        Product p3 = GetRandomProduct(chosenShop.GetProducts());
+                        Product p4 = GetRandomProduct(chosenShop.GetProducts());
 
                         c1.AddProduct(p1, chosenShop.CalculateProductPrice(p1));
                         c1.AddProduct(p2, chosenShop.CalculateProductPrice(p2));
+                        c1.AddProduct(p1, chosenShop.CalculateProductPrice(p3));
+                        c1.AddProduct(p2, chosenShop.CalculateProductPrice(p4));
 
                         c2.AddProduct(p3, chosenShop.CalculateProductPrice(p3));
                         c2.AddProduct(p4, chosenShop.CalculateProductPrice(p4));
+                        c2.AddProduct(p3, chosenShop.CalculateProductPrice(p2));
+                        c2.AddProduct(p4, chosenShop.CalculateProductPrice(p1));
 
                         c3.AddProduct(p1, chosenShop.CalculateProductPrice(p1));
                         c3.AddProduct(p4, chosenShop.CalculateProductPrice(p4));
+                        c3.AddProduct(p1, chosenShop.CalculateProductPrice(p2));
+                        c3.AddProduct(p4, chosenShop.CalculateProductPrice(p3));
 
                         c4.AddProduct(p2, chosenShop.CalculateProductPrice(p2));
                         c4.AddProduct(p3, chosenShop.CalculateProductPrice(p3));
+                        c4.AddProduct(p2, chosenShop.CalculateProductPrice(p1));
+                        c4.AddProduct(p3, chosenShop.CalculateProductPrice(p4));
 
                         Thread t1 = new Thread(new MyThread(chosenShop, c1));
                         Thread t2 = new Thread(new MyThread(chosenShop, c2));
@@ -510,9 +538,9 @@ public class Main {
     public static void PrintFinalClientInfo(Client client){
         System.out.println(client.GetName() + " is on cash register " + client.GetCashRegister().GetName() + " with worker " + client.GetCashRegister().GetCashier().GetName() +  " and his bill is " + client.GetCurrentBill() + " leva");
     }
-    public static int GetRandomNumberForProduct(List<Product> products){
+    public static Product GetRandomProduct(List<Product> products){
         Random random = new Random();
-        return random.nextInt(products.size());
+        return products.get(random.nextInt(products.size()));
     }
     public static void PrintReceipt(List<Client> clients)throws IOException{
         PrintClients(clients);
@@ -520,14 +548,14 @@ public class Main {
         Client chosenClient = ChooseClient(clients);
         try {
             assert chosenClient != null;
-            File receipt = new File("C:\\git repos\\shop\\Documents\\" + chosenClient.GetName() + ".txt");
+            File receipt = new File("C:\\git repos\\shop\\Documents\\receipts\\" + chosenClient.GetName() + "Receipt" + ".txt");
             Desktop desktop = Desktop.getDesktop();
             if (receipt.createNewFile()) {
                 System.out.println("File created: " + receipt.getName());
             } else {
                 System.out.println("File already exists.");
             }
-            FileWriter myWriter = new FileWriter("C:\\git repos\\shop\\Documents\\" + chosenClient.GetName() + ".txt");
+            FileWriter myWriter = new FileWriter("C:\\git repos\\shop\\Documents\\receipts\\" + chosenClient.GetName() + "Receipt" + ".txt");
             myWriter.write(chosenClient.GetReceiptInfo());
             myWriter.close();
             desktop.open(receipt);

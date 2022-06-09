@@ -1,0 +1,10 @@
+Petkan
+--------
+Cashier: Pesho
+Date and Time: 2022/06/09 13:57:27
+--------
+Products purchased
+Brokoli
+Sladoled
+Brokoli
+Total: 28.6 leva

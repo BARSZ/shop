@@ -28,7 +28,7 @@ public class Client {
     }
     public void AddProduct(Product product, Double productPrice){
         try{
-            Thread.sleep(1000);
+            Thread.sleep(0);
             if(product.isExpired()){
                 throw new ProductExpiredException(this.name + " cannot buy " + product.GetName() + " because product is expired!");
             }

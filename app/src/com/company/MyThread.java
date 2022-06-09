@@ -15,7 +15,7 @@ public class MyThread implements Runnable{
                 System.out.println(client.GetName() + " buys " + product.GetName() + " for " + this.shop.CalculateProductPrice(product));
                 System.out.println();
             }catch(InterruptedException ex){
-                System.out.println(ex);
+                System.out.println(ex.getMessage());
             }
 
         }
